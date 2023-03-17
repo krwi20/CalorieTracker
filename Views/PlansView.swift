@@ -10,8 +10,11 @@ import SwiftUI
 struct PlansView: View {
     var body: some View {
         VStack {
+            Header()
+            Spacer()
             Text("Plans View")
                 .foregroundColor(.white)
+            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("Background"))

@@ -1,5 +1,5 @@
 //
-//  SearchView.swift
+//  SettingsView.swift
 //  CalorieTracker
 //
 //  Created by Kris Wittwer on 17/03/2023.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct SearchView: View {
+struct SettingsView: View {
     var body: some View {
         VStack {
             Header()
             Spacer()
-            Text("Search View")
+            Text("Settings View")
                 .foregroundColor(.white)
             Spacer()
         }
@@ -21,7 +21,7 @@ struct SearchView: View {
     }
 }
 
-struct SearchView_Previews: PreviewProvider {
+struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }

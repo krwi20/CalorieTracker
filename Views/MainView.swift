@@ -6,40 +6,26 @@
 //
 
 import SwiftUI
-import Firebase
-import FirebaseFirestore
 
 struct MainView: View {
     var body: some View {
-        VStack {
-            
+        VStack(spacing: 0) {
             Header()
             ScrollView(.vertical, showsIndicators: false) {
-                
-                VStack {
-                    PanelOne()
-                    
-                    HStack {
-                        FoodPanel()
-                        WaterPanel()
-                    }
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        
-                        HStack {
-                            WeightProgress()
-                            TempBarChart()
-                        }
-                        
-                    }
-                    
+                PanelOne()
+                HStack {
+                    FoodPanel()
+                    WaterPanel()
                 }
-                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        WeightProgress()
+                        TempBarChart()
+                    }
+                }
             }
-            
         }
         .background(Color("Background"))
-        
     }
 }
 

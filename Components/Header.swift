@@ -19,40 +19,35 @@ struct Header: View {
     @State var showError: Bool = false
     @State var isLoading: Bool = false
     var body: some View {
-        ZStack {
-            HStack {
+        VStack {
+            HStack(spacing: 20) {
                 Circle()
                     .frame(width: 38, height: 38)
-                    .padding(.leading, 20)
                 if let myProfile {
                     Text(myProfile.username)
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(.title2.bold())
                         .foregroundColor(.white)
-                        .padding(.leading, 10)
                 } else {
                     ProgressView()
                 }
                 Spacer()
                 Image(systemName: "bell.fill")
                     .foregroundColor(.white)
-                    .padding(.trailing, 8)
-                    .padding(.trailing, 20)
                 Button(action: signOut) {
                     Text("SO")
                 }
             }
-        }
-        .ignoresSafeArea(edges: .top)
-        .frame(height: 50)
-        .background(
-            LinearGradient(
-                gradient: Gradient(colors: [Color("HeaderOne"), Color("HeaderTwo")]),
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 15)
+            .padding(.bottom, 15)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [Color("HeaderOne"), Color("HeaderTwo")]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             )
-        )
-        .shadow(radius: 15)
+        }
         .overlay {
             LoadingView(show: $isLoading)
         }

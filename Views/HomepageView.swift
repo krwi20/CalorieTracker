@@ -32,6 +32,9 @@ struct HomepageView: View {
                 PlansView()
                     .tag(Tab.plans)
                 
+                SettingsView()
+                    .tag(Tab.settings)
+                
             }
             
             // Custom Tab Bar

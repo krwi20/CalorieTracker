@@ -12,6 +12,7 @@ enum Tab: String, CaseIterable {
     case search = "Search"
     case diary = "Diary"
     case plans = "Plans"
+    case settings = "Settings"
     
     var iconName: String {
         switch self {
@@ -23,6 +24,8 @@ enum Tab: String, CaseIterable {
             return "book"
         case .plans:
             return "calendar"
+        case .settings:
+            return "gear"
         }
     }
 }
