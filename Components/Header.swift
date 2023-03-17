@@ -33,9 +33,6 @@ struct Header: View {
                 Spacer()
                 Image(systemName: "bell.fill")
                     .foregroundColor(.white)
-                Button(action: signOut) {
-                    Text("SO")
-                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 15)
@@ -77,12 +74,6 @@ struct Header: View {
         await MainActor.run(body: {
             myProfile = user
         })
-    }
-    
-    // Sign the user out
-    func signOut() {
-        try? Auth.auth().signOut()
-        logStatus = false
     }
     
 }

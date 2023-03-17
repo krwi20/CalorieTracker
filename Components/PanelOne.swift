@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PanelOne: View {
+    // Initalise an instance of HealthKitManager class
+    @StateObject private var healthKitManager = HealthKitManager()
     var body: some View {
         ZStack {
             Rectangle()
@@ -52,7 +54,7 @@ struct PanelOne: View {
                                         lineWidth: 8))
                                 .frame(width: 70, height: 70)
                             Circle()
-                                .trim(from: 0.0, to: 0.25)
+                                .trim(from: 0.0, to: min(1,CGFloat(healthKitManager.stepCount) / 250.0))
                                 .stroke(
                                     Color("Purple"),
                                     style: StrokeStyle(
@@ -68,7 +70,7 @@ struct PanelOne: View {
                             .font(.subheadline)
                             .foregroundColor(.white)
                             .padding(.top, 16)
-                        Text("222")
+                        Text("\(healthKitManager.stepCount)")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
@@ -137,6 +139,9 @@ struct PanelOne: View {
             }
         }
         .shadow(radius: 15)
+        .onAppear {
+            healthKitManager.requestAuthorization()
+        }
     }
 }
 
