@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
-        HomepageView()
+        // Redirect based on if user is logged in or not
+        if logStatus {
+            HomepageView()
+        } else {
+            LoginView()
+        }
     }
 }
 

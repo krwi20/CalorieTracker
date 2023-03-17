@@ -6,24 +6,41 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct Header: View {
+    // Hold the user profile data once fetched
+    @State private var myProfile: User?
+    // To store log-in status in local storage
+    @AppStorage("log_status") var logStatus: Bool = false
+    // Manage the error state and loading state of the view
+    @State var errorMessage: String = ""
+    @State var showError: Bool = false
+    @State var isLoading: Bool = false
     var body: some View {
         ZStack {
             HStack {
                 Circle()
                     .frame(width: 38, height: 38)
                     .padding(.leading, 20)
-                Text("John Smith ")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.leading, 10)
+                if let myProfile {
+                    Text(myProfile.username)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.leading, 10)
+                } else {
+                    ProgressView()
+                }
                 Spacer()
                 Image(systemName: "bell.fill")
                     .foregroundColor(.white)
                     .padding(.trailing, 8)
                     .padding(.trailing, 20)
+                Button(action: signOut) {
+                    Text("SO")
+                }
             }
         }
         .ignoresSafeArea(edges: .top)
@@ -36,7 +53,43 @@ struct Header: View {
             )
         )
         .shadow(radius: 15)
+        .overlay {
+            LoadingView(show: $isLoading)
+        }
+        .alert(errorMessage, isPresented: $showError) {
+            
+        }
+        .task {
+            if myProfile != nil { return }
+            await fetchUserData()
+        }
     }
+    
+    // Display errors with alert
+    func setError(_ error: Error) async {
+        await MainActor.run(body: {
+            isLoading = false
+            errorMessage = error.localizedDescription
+            showError.toggle()
+        })
+    }
+    
+    // Fetch user data from Firestore and set myProfile once data is retrieved
+    func fetchUserData() async {
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        guard let user = try? await
+                Firestore.firestore().collection("Users").document(userUID).getDocument(as: User.self) else { return }
+        await MainActor.run(body: {
+            myProfile = user
+        })
+    }
+    
+    // Sign the user out
+    func signOut() {
+        try? Auth.auth().signOut()
+        logStatus = false
+    }
+    
 }
 
 struct Header_Previews: PreviewProvider {

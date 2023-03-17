@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct MainView: View {
     var body: some View {
         VStack {
             
             Header()
-            
             ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack {
@@ -38,6 +39,7 @@ struct MainView: View {
             
         }
         .background(Color("Background"))
+        
     }
 }
 
