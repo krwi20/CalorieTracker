@@ -24,7 +24,7 @@ struct Header: View {
                 Circle()
                     .frame(width: 38, height: 38)
                 if let myProfile {
-                    Text(myProfile.username)
+                    Text("\(myProfile.username) 👋")
                         .font(.title2.bold())
                         .foregroundColor(.white)
                 } else {

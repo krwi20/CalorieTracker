@@ -84,7 +84,7 @@ struct PanelOne: View {
                                         lineWidth: 8))
                                 .frame(width: 70, height: 70)
                             Circle()
-                                .trim(from: 0.0, to: 0.25)
+                                .trim(from: 0.0, to: min(1,CGFloat(healthKitManager.calorieCount) / 2000.0))
                                 .stroke(
                                     Color("Purple"),
                                     style: StrokeStyle(
@@ -100,7 +100,7 @@ struct PanelOne: View {
                             .font(.subheadline)
                             .foregroundColor(.white)
                             .padding(.top, 16)
-                        Text("222")
+                        Text("\(healthKitManager.calorieCount)")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
@@ -114,7 +114,7 @@ struct PanelOne: View {
                                         lineWidth: 8))
                                 .frame(width: 70, height: 70)
                             Circle()
-                                .trim(from: 0.0, to: 0.25)
+                                .trim(from: 0.0, to: min(1,CGFloat(healthKitManager.distanceCount) / 0.15))
                                 .stroke(
                                     Color("Purple"),
                                     style: StrokeStyle(
@@ -130,7 +130,7 @@ struct PanelOne: View {
                             .font(.subheadline)
                             .foregroundColor(.white)
                             .padding(.top, 16)
-                        Text("222")
+                        Text("\(String(format: "%.2f", healthKitManager.distanceCount))")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
