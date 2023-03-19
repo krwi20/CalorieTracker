@@ -14,6 +14,8 @@ struct HomepageView: View {
     }
     
     @State var currentTab: Tab = .home
+    @State private var scannedBarcode = ""
+    @State var liveScan = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -23,7 +25,7 @@ struct HomepageView: View {
                 MainView()
                     .tag(Tab.home)
                 
-                SearchView()
+                SearchView(liveScan: $liveScan, scannedBarcode: $scannedBarcode)
                     .tag(Tab.search)
                 
                 DiaryView()
