@@ -19,7 +19,6 @@ struct SearchView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Header()
             NavigationStack {
                 ZStack {
                     Color("Background").ignoresSafeArea()
@@ -108,7 +107,7 @@ struct SearchView: View {
 
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        // SearchView(liveScan: .constant(false), scannedBarcode: .constant(""))
-        ContentView()
+         SearchView(liveScan: .constant(false), scannedBarcode: .constant(""))
+//        ContentView()
     }
 }

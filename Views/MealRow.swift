@@ -15,18 +15,15 @@ struct MealRow: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(meal.product.name)
-                    .font(.headline)
                 Text("\(meal.product.calories) Cals")
-                    .font(.subheadline)
             }
             Spacer()
             Text(meal.date.dateValue(), style: .time)
         }
         .listRowBackground(Rectangle()
-            .fill(Color("Purple"))
-            .cornerRadius(15)
-            .padding(5))
+            .fill(Color("Purple")))
         .foregroundColor(.white)
+        .frame(height: 40)
     }
 }
 

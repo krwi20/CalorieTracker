@@ -13,11 +13,12 @@ struct PlansView: View {
     
     @State var meals: [Meal] = []
     @State var selectedDate = Date()
+    @State var addMeal: Bool = false
+    @State private var scannedBarcode = ""
+    @State var liveScan = false
     
     var body: some View {
         VStack {
-            Header()
-            Spacer()
             // Go back and forwards between days days
             HStack(spacing: 50) {
                 Button(action: {
@@ -50,15 +51,41 @@ struct PlansView: View {
                             // If there are no elements in the filtered array then show there are no meals
                             if meals.filter { $0.type == "Breakfast" }.isEmpty {
                                 HStack {
-                                    Text("No Meals!")
+                                    VStack(alignment: .leading) {
+                                        Text("No Meals!")
+                                        Text("🍽️")
+                                            .padding(.leading, 23)
+                                    }
                                     Spacer()
-                                    Image(systemName: "plus")
-                                    Text("Add a meal!")
+                                        Button(action: { addMeal.toggle()}) {
+                                            HStack {
+                                                Image(systemName: "plus")
+                                                Text("Add a meal!")
+                                            }
+                                        }
                                 }
                                 .listRowBackground(Rectangle()
-                                    .fill(Color("Purple"))
-                                    .cornerRadius(15))
+                                    .fill(Color("Purple")))
                                 .foregroundColor(.white)
+                                .frame(height: 40)
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text("No Meals!")
+                                        Text("🍽️")
+                                            .padding(.leading, 23)
+                                    }
+                                    Spacer()
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
+                                        }
+                                    }
+                                }
+                                .listRowBackground(Rectangle()
+                                    .fill(Color("Purple")))
+                                .foregroundColor(.white)
+                                .frame(height: 40)
                             } else {
                                 // Filter creates a new array including the elements where type property equals breakfast
                                 // The closure is { $0.type == "Breakfast" }
@@ -78,15 +105,23 @@ struct PlansView: View {
                                 .font(.headline.bold())
                             if meals.filter { $0.type == "Lunch" }.isEmpty {
                                 HStack {
-                                    Text("No Meals!")
+                                    VStack(alignment: .leading) {
+                                        Text("No Meals!")
+                                        Text("🍽️")
+                                            .padding(.leading, 23)
+                                    }
                                     Spacer()
-                                    Image(systemName: "plus")
-                                    Text("Add a meal!")
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
+                                        }
+                                    }
                                 }
                                 .listRowBackground(Rectangle()
-                                    .fill(Color("Purple"))
-                                    .cornerRadius(15))
+                                    .fill(Color("Purple")))
                                 .foregroundColor(.white)
+                                .frame(height: 40)
                             } else {
                                 ForEach(meals.filter { $0.type == "Lunch" }) { meal in
                                     MealRow(meal: meal)
@@ -102,15 +137,23 @@ struct PlansView: View {
                             // If the meal id
                             if meals.filter { $0.type == "Dinner" }.isEmpty {
                                 HStack {
-                                    Text("No Meals!")
+                                    VStack(alignment: .leading) {
+                                        Text("No Meals!")
+                                        Text("🍽️")
+                                            .padding(.leading, 23)
+                                    }
                                     Spacer()
-                                    Image(systemName: "plus")
-                                    Text("Add a meal!")
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
+                                        }
+                                    }
                                 }
                                 .listRowBackground(Rectangle()
-                                    .fill(Color("Purple"))
-                                    .cornerRadius(15))
+                                    .fill(Color("Purple")))
                                 .foregroundColor(.white)
+                                .frame(height: 40)
                             } else {
                                 ForEach(meals.filter { $0.type == "Dinner" }) { meal in
                                     MealRow(meal: meal)
@@ -125,15 +168,23 @@ struct PlansView: View {
                                 .font(.headline.bold())
                             if meals.filter { $0.type == "Snack" }.isEmpty {
                                 HStack {
-                                    Text("No Meals!")
+                                    VStack(alignment: .leading) {
+                                        Text("No Meals!")
+                                        Text("🍽️")
+                                            .padding(.leading, 23)
+                                    }
                                     Spacer()
-                                    Image(systemName: "plus")
-                                    Text("Add a meal!")
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
+                                        }
+                                    }
                                 }
                                 .listRowBackground(Rectangle()
-                                    .fill(Color("Purple"))
-                                    .cornerRadius(15))
+                                    .fill(Color("Purple")))
                                 .foregroundColor(.white)
+                                .frame(height: 40)
                             } else {
                                 ForEach(meals.filter { $0.type == "Snack" }) { meal in
                                     MealRow(meal: meal)
@@ -142,7 +193,6 @@ struct PlansView: View {
                         }
                     }
                     .listStyle(.plain)
-                    .padding(.horizontal, 5)
                 }
             }
             Spacer()
@@ -153,13 +203,16 @@ struct PlansView: View {
             let date = selectedDate
             fetchMeals(for: date)
         }
+        .fullScreenCover(isPresented: $addMeal) {
+            AddMealView()
+        }
     }
     
     // Fetch the meals for the current user for the Date
     func fetchMeals(for date: Date) {
         
         guard let userUID = Auth.auth().currentUser?.uid else { return }
-    
+        
         let calendar = Calendar.current
         // Get the year, month, week & day from the passed date
         let year = calendar.component(.year, from: date)

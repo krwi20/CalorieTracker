@@ -13,8 +13,6 @@ struct SettingsView: View {
     @AppStorage("log_status") var logStatus: Bool = false
     var body: some View {
         VStack {
-            Header()
-            
             Text("Settings View")
                 .font(.title)
                 .foregroundColor(.white)

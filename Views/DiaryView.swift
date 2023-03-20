@@ -14,8 +14,6 @@ struct DiaryView: View {
     @StateObject private var healthKitManager = HealthKitManager()
     var body: some View {
         VStack {
-            Header()
-            Spacer()
             Text("Diary View")
                 .foregroundColor(.white)
             Text("Total Steps: \(healthKitManager.stepCount)")
@@ -54,6 +52,6 @@ struct DiaryView: View {
 
 struct DiaryView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        DiaryView()
     }
 }
