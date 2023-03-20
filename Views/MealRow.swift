@@ -21,9 +21,16 @@ struct MealRow: View {
             Text(meal.date.dateValue(), style: .time)
         }
         .listRowBackground(Rectangle()
-            .fill(Color("Purple")))
+            .fill(Color("Purple"))
+            .overlay(
+                Rectangle()
+                    .frame(height: 1)
+                    .foregroundColor(Color("Background")),
+                alignment: .bottom
+        ))
         .foregroundColor(.white)
         .frame(height: 40)
+        .listRowSeparator(.hidden)
     }
 }
 

@@ -52,27 +52,44 @@ struct PlansView: View {
                             if meals.filter { $0.type == "Breakfast" }.isEmpty {
                                 HStack {
                                     VStack(alignment: .leading) {
+                                        Spacer()
                                         Text("No Meals!")
-                                        Text("🍽️")
-                                            .padding(.leading, 23)
+                                        Spacer()
                                     }
                                     Spacer()
-                                        Button(action: { addMeal.toggle()}) {
-                                            HStack {
-                                                Image(systemName: "plus")
-                                                Text("Add a meal!")
-                                            }
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
                                         }
+                                    }
                                 }
                                 .listRowBackground(Rectangle()
-                                    .fill(Color("Purple")))
+                                    .fill(Color("Purple"))
+                                    .overlay(
+                                        Rectangle()
+                                            .frame(height: 1)
+                                            .foregroundColor(Color("Background")),
+                                        alignment: .bottom
+                                    ))
                                 .foregroundColor(.white)
                                 .frame(height: 40)
+                                .listRowSeparator(.hidden)
+                            } else {
+                                // Filter creates a new array including the elements where type property equals breakfast
+                                // The closure is { $0.type == "Breakfast" }
+                                // $0 shorthand represents the current meal object being passed by the closure
+                                // $0.type accesses the type property of the current Meal object
+                                ForEach(meals.filter { $0.type == "Breakfast" }) { meal in
+                                    // For each element in the filtered array create new row for the meal
+                                    MealRow(meal: meal)
+                                }
+                                // Add a Meal
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        Text("No Meals!")
-                                        Text("🍽️")
-                                            .padding(.leading, 23)
+                                        Spacer()
+                                        Text("Need to log?")
+                                        Spacer()
                                     }
                                     Spacer()
                                     Button(action: { addMeal.toggle()}) {
@@ -86,15 +103,6 @@ struct PlansView: View {
                                     .fill(Color("Purple")))
                                 .foregroundColor(.white)
                                 .frame(height: 40)
-                            } else {
-                                // Filter creates a new array including the elements where type property equals breakfast
-                                // The closure is { $0.type == "Breakfast" }
-                                // $0 shorthand represents the current meal object being passed by the closure
-                                // $0.type accesses the type property of the current Meal object
-                                ForEach(meals.filter { $0.type == "Breakfast" }) { meal in
-                                    // For each element in the filtered array create new row for the meal
-                                    MealRow(meal: meal)
-                                }
                             }
                         }
                         // Lunch Section
@@ -106,9 +114,38 @@ struct PlansView: View {
                             if meals.filter { $0.type == "Lunch" }.isEmpty {
                                 HStack {
                                     VStack(alignment: .leading) {
+                                        Spacer()
                                         Text("No Meals!")
-                                        Text("🍽️")
-                                            .padding(.leading, 23)
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
+                                        }
+                                    }
+                                }
+                                .listRowBackground(Rectangle()
+                                    .fill(Color("Purple"))
+                                    .overlay(
+                                        Rectangle()
+                                            .frame(height: 1)
+                                            .foregroundColor(Color("Background")),
+                                        alignment: .bottom
+                                    ))
+                                .foregroundColor(.white)
+                                .frame(height: 40)
+                            } else {
+                                ForEach(meals.filter { $0.type == "Lunch" }) { meal in
+                                    MealRow(meal: meal)
+                                }
+                                // Add a Meal
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Spacer()
+                                        Text("Need to log?")
+                                        Spacer()
                                     }
                                     Spacer()
                                     Button(action: { addMeal.toggle()}) {
@@ -122,10 +159,6 @@ struct PlansView: View {
                                     .fill(Color("Purple")))
                                 .foregroundColor(.white)
                                 .frame(height: 40)
-                            } else {
-                                ForEach(meals.filter { $0.type == "Lunch" }) { meal in
-                                    MealRow(meal: meal)
-                                }
                             }
                         }
                         // Dinner Section
@@ -138,9 +171,38 @@ struct PlansView: View {
                             if meals.filter { $0.type == "Dinner" }.isEmpty {
                                 HStack {
                                     VStack(alignment: .leading) {
+                                        Spacer()
                                         Text("No Meals!")
-                                        Text("🍽️")
-                                            .padding(.leading, 23)
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
+                                        }
+                                    }
+                                }
+                                .listRowBackground(Rectangle()
+                                    .fill(Color("Purple"))
+                                    .overlay(
+                                        Rectangle()
+                                            .frame(height: 1)
+                                            .foregroundColor(Color("Background")),
+                                        alignment: .bottom
+                                    ))
+                                .foregroundColor(.white)
+                                .frame(height: 40)
+                            } else {
+                                ForEach(meals.filter { $0.type == "Dinner" }) { meal in
+                                    MealRow(meal: meal)
+                                }
+                                // Add a Meal
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Spacer()
+                                        Text("Need to log?")
+                                        Spacer()
                                     }
                                     Spacer()
                                     Button(action: { addMeal.toggle()}) {
@@ -154,10 +216,6 @@ struct PlansView: View {
                                     .fill(Color("Purple")))
                                 .foregroundColor(.white)
                                 .frame(height: 40)
-                            } else {
-                                ForEach(meals.filter { $0.type == "Dinner" }) { meal in
-                                    MealRow(meal: meal)
-                                }
                             }
                         }
                         // Snack section
@@ -169,9 +227,38 @@ struct PlansView: View {
                             if meals.filter { $0.type == "Snack" }.isEmpty {
                                 HStack {
                                     VStack(alignment: .leading) {
+                                        Spacer()
                                         Text("No Meals!")
-                                        Text("🍽️")
-                                            .padding(.leading, 23)
+                                        Spacer()
+                                    }
+                                    Spacer()
+                                    Button(action: { addMeal.toggle()}) {
+                                        HStack {
+                                            Image(systemName: "plus")
+                                            Text("Add a meal!")
+                                        }
+                                    }
+                                }
+                                .listRowBackground(Rectangle()
+                                    .fill(Color("Purple"))
+                                    .overlay(
+                                        Rectangle()
+                                            .frame(height: 1)
+                                            .foregroundColor(Color("Background")),
+                                        alignment: .bottom
+                                    ))
+                                .foregroundColor(.white)
+                                .frame(height: 40)
+                            } else {
+                                ForEach(meals.filter { $0.type == "Snack" }) { meal in
+                                    MealRow(meal: meal)
+                                }
+                                // Add a Meal
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Spacer()
+                                        Text("Need to log?")
+                                        Spacer()
                                     }
                                     Spacer()
                                     Button(action: { addMeal.toggle()}) {
@@ -185,10 +272,6 @@ struct PlansView: View {
                                     .fill(Color("Purple")))
                                 .foregroundColor(.white)
                                 .frame(height: 40)
-                            } else {
-                                ForEach(meals.filter { $0.type == "Snack" }) { meal in
-                                    MealRow(meal: meal)
-                                }
                             }
                         }
                     }
