@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
 
 struct PanelOne: View {
     // Initalise an instance of HealthKitManager class
     @StateObject private var healthKitManager = HealthKitManager()
+    @State private var goals: Goals = Goals(stepGoal: 0, weightGoal: 0, calorieGoal: 0)
     var body: some View {
         ZStack {
             Rectangle()
@@ -24,7 +27,7 @@ struct PanelOne: View {
                                 lineWidth: 10))
                         .frame(width: 130, height: 130)
                     Circle()
-                        .trim(from: 0.0, to: 0.25)
+                        .trim(from: 0.0, to: min(1,CGFloat(goals.calorieGoal) / 3000.0))
                         .stroke(
                             Color("Purple"),
                             style: StrokeStyle(
@@ -34,7 +37,7 @@ struct PanelOne: View {
                         .frame(width: 130, height: 130)
                         .rotationEffect(.degrees(-90))
                     VStack {
-                        Text("1,000")
+                        Text("\(3000 - goals.calorieGoal)")
                             .font(.title2)
                             .foregroundColor(.white)
                             .fontWeight(.semibold)
@@ -54,7 +57,7 @@ struct PanelOne: View {
                                         lineWidth: 8))
                                 .frame(width: 70, height: 70)
                             Circle()
-                                .trim(from: 0.0, to: min(1,CGFloat(healthKitManager.stepCount) / 250.0))
+                                .trim(from: 0.0, to: min(1,CGFloat(healthKitManager.stepCount) / CGFloat(goals.stepGoal)))
                                 .stroke(
                                     Color("Purple"),
                                     style: StrokeStyle(
@@ -141,6 +144,37 @@ struct PanelOne: View {
         .shadow(radius: 15)
         .onAppear {
             healthKitManager.requestAuthorization()
+            fetchGoals()
+        }
+    }
+    
+    func fetchGoals() {
+        
+        guard let userUID = Auth.auth().currentUser?.uid else { return }
+        
+        Firestore.firestore().collection("Users").document(userUID).collection("Goals").document("StepGoal").getDocument() { snapshot, error in
+            if let error = error {
+                print("Error getting step goal: \(error.localizedDescription)")
+            } else if let stepGoal = snapshot?.data()?["stepGoal"] as? Int {
+                goals.stepGoal = stepGoal
+            }
+        }
+        
+        Firestore.firestore().collection("Users").document(userUID).collection("Goals").document("WeightGoal").getDocument() { snapshot, error in
+            if let error = error {
+                print("Error getting weight goal: \(error.localizedDescription)")
+            } else if let weightGoal = snapshot?.data()?["weightGoal"] as? Int {
+                goals.weightGoal = weightGoal
+            }
+            
+            Firestore.firestore().collection("Users").document(userUID).collection("Goals").document("CalorieGoal").getDocument() { snapshot, error in
+                if let error = error {
+                    print("Error getting step goal: \(error.localizedDescription)")
+                } else if let calorieGoal = snapshot?.data()?["calorieGoal"] as? Int {
+                    goals.calorieGoal = calorieGoal
+                }
+                
+            }
         }
     }
 }
